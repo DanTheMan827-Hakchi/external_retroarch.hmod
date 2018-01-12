@@ -1,0 +1,3 @@
+cfg_external_retroarch_usb_rw="$cfg_usb_rw"
+cfg_usb_rw="y"
+
