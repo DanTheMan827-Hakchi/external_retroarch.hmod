@@ -1,0 +1,3 @@
+[submodule "decodepng"]
+	path = decodepng
+	url = https://github.com/DanTheMan827/decodepng.git

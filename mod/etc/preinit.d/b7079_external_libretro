@@ -9,6 +9,7 @@ externalizeLibretro(){
 
   if [ ! -d "$externalPath" ]; then
     echo "externalizeLibretro: external path not found, copying..."
+    xz -dc "$rootfs/usr/share/external_retroarch/transferring.xz" > /dev/fb0
     mkdir -p "$externalPath" || return 4
     copy "$localPath/" "$externalPath/" || return 5
     rm -rf "$localPath" && mkdir "$localPath"
