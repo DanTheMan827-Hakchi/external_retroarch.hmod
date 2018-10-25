@@ -3,3 +3,5 @@ This mod will move /etc/libretro to the attached external usb drive at hakchi/li
 
 ## Uninstall
 During uninstall, the libretro directory on the USB drive will replace the one on nand if there is enough available free space.
+
+madmonkey was here
