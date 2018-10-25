@@ -2,16 +2,14 @@ cfg_usb_rw="$cfg_external_retroarch_usb_rw"
 unset cfg_external_retroarch_usb_rw
 
 local externalPath="$mountpoint/media/$modname/libretro"
-local localPath="$rootfs/etc/libretro"
+local localPath="$mountpoint/etc/libretro"
 local freeSpace="$(df "$rootfs/etc/" | tail -n 1 | awk '{ print $4 }')"
-mkdir -p "$localPath"
 
-mountpoint -q "$localPath" && umount "$localPath"
-mountpoint -q "${localPath#rootfs}" && umount "${localPath#$rootfs}"
+mkdir -p "$localPath"
+umount_if "$localPath"
 
 if [ -d "$externalPath" ] && [ "$freeSpace" -gt "$(du "$externalPath" | tail -n 1 | awk '{ print $1 }')" ]; then
   xz -dc "$rootfs/usr/share/external_retroarch/transferring.xz" > /dev/fb0
   echo "Moving $externalPath to $localPath"
-  copy "$externalPath/" "$localPath" && rm -rf "$externalPath"
+  copy "$externalPath/" "$localPath/" && rm -rf "$externalPath"
 fi
-
