@@ -1,21 +1,20 @@
 externalizeLibretro(){
   local externalPath="$mountpoint/media/$modname/libretro"
-  local localPath="$rootfs/etc/libretro"
+  local localPath="$mountpoint/etc/libretro"
   local writeTest="$mountpoint/media/$modname/write-test"
 
   touch "$writeTest" || return 1
   rm "$writeTest" || return 2
-  [ -d "$localPath" ] || (mkdir -p "$localPath" || return 3)
 
-  if [ ! -d "$externalPath" ]; then
+  if [ -d "$localPath/core" ]; then
     echo "externalizeLibretro: external path not found, copying..."
     xz -dc "$rootfs/usr/share/external_retroarch/transferring.xz" > /dev/fb0
-    mkdir -p "$externalPath" || return 4
-    copy "$localPath/" "$externalPath/" || return 5
-    rm -rf "$localPath" && mkdir "$localPath"
+    mkdir -p "$externalPath" || return 3
+    copy "$localPath/" "$externalPath/" || return 4
+    rm -rf "$localPath"
   fi
+  [ -d "$externalPath" ] || return 5
 
-  [ "$1" == "1" ] && (mount_bind "$externalPath" "$localPath" || return 6)
-  [ "$1" == "2" ] && (mount_bind "$externalPath" "$mountpoint${localPath#$rootfs}" || return 7)
+  mkdir -p "$localPath"
+  mount_bind "$externalPath" "$localPath" || return 6
 }
-

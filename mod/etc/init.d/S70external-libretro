@@ -1,5 +1,2 @@
 #!/bin/sh
-[ "$1" == "start" ] || return 0
-source "/etc/preinit"
-script_init
-externalizeLibretro 2
+exit 0
